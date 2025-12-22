@@ -1,0 +1,24 @@
+{
+  "name": "motion-design",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node app"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^6.0.0",
+    "dotenv": "^16.6.1",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "mongoose": "^8.20.1",
+    "shortid": "^2.2.17"
+  }
+}
