@@ -33,10 +33,10 @@
 .user-profile {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   border-radius: var(--radius);
-  margin: 0 1rem;
-  padding: 0.4rem 0.8rem;
+  margin: 0 0.7rem;
+  padding: 0.4rem 0.7rem;
   cursor: pointer;
   position: relative;
   font-size: 0.85rem;
@@ -255,8 +255,8 @@
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.4rem 0.8rem;
+  gap: 0.5rem;
+  padding: 0.4rem 0.7rem;
   color: var(--muted-foreground);
   font-size: 0.85rem;
   text-decoration: none;
@@ -537,6 +537,71 @@
   
   .project-image {
     height: 180px;
+  }
+
+  /* Search Modal Styles */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  
+  .modal-content {
+    background: white;
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.3s ease-out;
+  }
+  
+  @keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--foreground);
+  }
+  
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: var(--muted-foreground);
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 1;
+    transition: color 0.2s ease;
+  }
+  
+  .modal-close:hover {
+    color: var(--foreground);
+  }
+  
+  .modal-body {
+    padding: 1.5rem;
   }
 }
 

@@ -22,20 +22,20 @@
           <span class="logo-text">Motion</span>
         </a>
       </div>
-      <div class="search-bar">
-        <i class="fas fa-search"></i>
-        <input type="text" placeholder="Search projects...">
-      </div>
       
-      <!-- user-profile moved to bottom; dropdown menu will be rendered there -->
+      <!-- user-profile moved to bottom; dropdown menu will be rendered here -->
       
       <nav class="sidebar-nav">
+        <a href="#" id="searchBtn" class="nav-item">
+          <i class="fas fa-search"></i>
+          <span>Search</span>
+        </a>
         <a href="/dashboard" class="nav-item <%= activeRoute === 'dashboard' ? 'active' : '' %>">
           <i class="fas fa-home"></i>
           <span>Home</span>
         </a>
         <a href="/projects" class="nav-item <%= activeRoute === 'projects' ? 'active' : '' %>">
-          <i class="far fa-folder"></i>
+          <i class="fas fa-folder"></i>
           <span>Projects</span>
         </a>
       </nav>
@@ -97,63 +97,95 @@
       { name: 'Explainer Video', image: 'https://picsum.photos/seed/8/300/200' }
     ];
 
-    // Generate project cards
-    const projectsGrid = document.querySelector('.projects-grid');
-    
-    projects.forEach((project, index) => {
-      const projectCard = document.createElement('div');
-      projectCard.className = 'project-card';
-      projectCard.innerHTML = `
-        <div class="project-image" style="background-image: url('${project.image}')">
-          <div class="project-overlay">
-            <button class="btn-primary-dash">Open</button>
-          </div>
-        </div>
-        <div class="project-info">
-          <h3>${project.name}</h3>
-          <div class="project-meta">
-            <span><i class="far fa-clock"></i> 2h ago</span>
-            <span><i class="far fa-folder"></i> Work</span>
-          </div>
-        </div>
-      `;
-      projectsGrid.appendChild(projectCard);
-    });
+    // Wait for the DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Generate project cards
+      const projectsGrid = document.querySelector('.projects-grid');
+      
+      if (projectsGrid) {
+        projects.forEach((project) => {
+          const projectCard = document.createElement('div');
+          projectCard.className = 'project-card';
+          projectCard.innerHTML = `
+            <div class="project-image" style="background-image: url('${project.image}')">
+              <div class="project-overlay">
+                <button class="btn-primary-dash">Open</button>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3>${project.name}</h3>
+              <div class="project-meta">
+                <span><i class="far fa-clock"></i> 2h ago</span>
+                <span><i class="far fa-folder"></i> Work</span>
+              </div>
+            </div>
+          `;
+          projectsGrid.appendChild(projectCard);
+        });
+      }
 
-    // User profile dropdown toggle
-    (function() {
+      // User profile dropdown toggle
       const userBtn = document.getElementById('userProfileBtn');
       const userMenu = document.getElementById('userMenu');
+      const newProjectBtn = document.querySelector('.top-bar-create-btn');
+      const projectModal = document.getElementById('newProjectModal');
 
-      if (!userBtn || !userMenu) return;
+      if (userBtn && userMenu) {
+        userBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          e.preventDefault();
+          
+          if (userMenu.classList.contains('show')) {
+            userMenu.classList.remove('show');
+            userMenu.setAttribute('aria-hidden', 'true');
+            userBtn.setAttribute('aria-expanded', 'false');
+          } else {
+            userMenu.classList.add('show');
+            userMenu.setAttribute('aria-hidden', 'false');
+            userBtn.setAttribute('aria-expanded', 'true');
+          }
+        });
 
-      userBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        
-        if (userMenu.classList.contains('show')) {
-          userMenu.classList.remove('show');
-          userMenu.setAttribute('aria-hidden', 'true');
-          userBtn.setAttribute('aria-expanded', 'false');
-        } else {
-          userMenu.classList.add('show');
-          userMenu.setAttribute('aria-hidden', 'false');
-          userBtn.setAttribute('aria-expanded', 'true');
-        }
-      });
+        // Close when clicking outside
+        document.addEventListener('click', function(e) {
+          if (!userBtn.contains(e.target) && !userMenu.contains(e.target)) {
+            userMenu.classList.remove('show');
+            userMenu.setAttribute('aria-hidden', 'true');
+            userBtn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
 
-      // Close when clicking outside
-      document.addEventListener('click', function(e) {
-        if (!userBtn.contains(e.target) && !userMenu.contains(e.target)) {
-          userMenu.classList.remove('show');
-          userMenu.setAttribute('aria-hidden', 'true');
-          userBtn.setAttribute('aria-expanded', 'false');
-        }
-      });
-    })();
+      // New Project button functionality
+      if (newProjectBtn && projectModal) {
+        newProjectBtn.addEventListener('click', function() {
+          projectModal.style.display = 'flex';
+          document.body.style.overflow = 'hidden';
+        });
+
+        // Close modal when clicking outside
+        projectModal.addEventListener('click', function(e) {
+          if (e.target === projectModal) {
+            projectModal.style.display = 'none';
+            document.body.style.overflow = '';
+          }
+        });
+
+        // Close with Escape key
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && projectModal.style.display === 'flex') {
+            projectModal.style.display = 'none';
+            document.body.style.overflow = '';
+          }
+        });
+      }
+    });
   </script>
   
   <!-- Include Project Modal -->
   <%- include('partials/project-modal') %>
+  
+  <!-- Include Search Modal -->
+  <%- include('partials/search-modal') %>
 </body>
 </html>
