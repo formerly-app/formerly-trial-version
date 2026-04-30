@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/Images/favicon.png">
+  <title>
+    <%= project.title %> - Formerly
+  </title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Work+Sans:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="/public/css/global.css">
+  <link rel="stylesheet" href="/public/css/components.css">
+  <link rel="stylesheet" href="/public/css/editor.css">
+  <style>
+    :root {
+      --project-canvas-width: <%=(project && project.width) ? project.width: 1920 %>px;
+      --project-canvas-height: <%=(project && project.height) ? project.height: 1080 %>px;
+    }
+  </style>
+  <script src="https://unpkg.com/konva@10/konva.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ccapture.js@1.1.0/build/CCapture.all.min.js"></script>
+</head>
+
+<body>
+
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="/dashboard" class="logo">
+        <img src="/Images/logo.svg" alt="Formerly Logo" class="navbar-logo">
+      </a>
+      <div class="nav-center">
+        <button class="add-frame-btn btn-primary"><i class="fas fa-plus"></i> Add Frame</button>
+      </div>
+      <div class="nav-buttons">
+        <button class="export-btn btn-secondary"><i class="fas fa-download"></i> Export</button>
+        <button class="play-btn btn-primary"><i class="fas fa-play"></i> Play</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="editor-wrapper">
+    <aside id="elements-sidebar" class="elements-sidebar">
+      <h3>Shapes</h3>
+      <div class="shapes-grid">
+        <button id="shape-rect-btn" class="add-rect-btn shape-btn">
+          <i class="fas fa-square"></i>
+          <span>Square</span>
+        </button>
+        <button id="shape-circle-btn" class="add-circle-btn shape-btn">
+          <i class="fas fa-circle"></i>
+          <span>Circle</span>
+        </button>
+        <button id="shape-triangle-btn" class="add-triangle-btn shape-btn">
+          <i class="fas fa-play" style="rotate: 150deg;"></i>
+          <span>Triangle</span>
+        </button>
+        <button id="shape-line-btn" class="add-line-btn shape-btn">
+          <i class="fas fa-minus"></i>
+          <span>Line</span>
+        </button>
+        <button id="shape-arrow-btn" class="add-arrow-btn shape-btn">
+          <i class="fas fa-arrow-right"></i>
+          <span>Arrow</span>
+        </button>
+        <button id="shape-star-btn" class="add-star-btn shape-btn">
+          <i class="fas fa-star"></i>
+          <span>Star</span>
+        </button>
+      </div>
+
+      <h3 style="margin-top: 1.25rem;">Text</h3>
+      <button id="add-heading-text-btn" class="add-heading-text-btn text-type-btn">
+        <i class="fas fa-heading"></i>
+        <span>Add Heading Text</span>
+      </button>
+      <button id="add-subheading-text-btn" class="add-subheading-text-btn text-type-btn">
+        <i class="fas fa-heading"></i>
+        <span>Add Sub-heading Text</span>
+      </button>
+      <button id="add-body-text-btn" class="add-body-text-btn text-type-btn">
+        <i class="fas fa-align-left"></i>
+        <span>Add Body Text</span>
+      </button>
+
+      <h3 style="margin-top: 1.25rem;">Image Library</h3>
+      <label for="image-upload-input" class="text-type-btn" style="margin-bottom: 0.75rem;">
+        <i class="fas fa-upload"></i>
+        <span>Upload Image</span>
+      </label>
+      <input id="image-upload-input" type="file" accept="image/*" multiple style="display: none;" />
+      <div id="image-library-list" class="image-library-list"></div>
+    </aside>
+
+    <main id="editor" class="editor-content">
+      <div id="frames-container"></div>
+
+      <div class="editor-controls" style="margin-bottom: 1rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
+      </div>
+
+      <!-- Preview canvas is hidden by default and shown in modal -->
+      <div id="canvas-preview" class="canvases canvas-preview" style="display: none;"></div>
+    </main>
+
+    <!-- Preview Modal Overlay -->
+    <div id="preview-modal-overlay" class="preview-modal-overlay" style="display: none;">
+      <div class="preview-modal-container">
+        <!-- Top bar with title and close button -->
+        <div class="preview-modal-bar">
+          <span class="preview-modal-title">Preview</span>
+          <div class="preview-modal-controls">
+            <button id="preview-modal-restart" class="preview-modal-restart-btn" title="Restart Animation">
+              <i class="fas fa-redo"></i>
+            </button>
+            <button id="preview-modal-close" class="preview-modal-close-btn" title="Close">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <!-- Preview canvas container -->
+        <div id="canvas-preview-modal" class="canvases canvas-preview-modal"></div>
+      </div>
+    </div>
+
+    <aside id="properties-sidebar" class="properties-sidebar">
+      <h3>Element Properties</h3>
+      <div>
+        <label>Name:</label>
+        <input type="text" id="prop-name-input" />
+      </div>
+
+      <div>
+        <label>Opacity (%):</label>
+        <input type="range" id="prop-opacity" min="0" max="100" value="100" />
+      </div>
+
+      <div>
+        <label>Rotate (deg):</label>
+        <input type="number" id="prop-rotate" value="0" />
+      </div>
+
+      <div>
+        <label>Width (px):</label>
+        <input type="number" id="prop-width" />
+      </div>
+
+      <div>
+        <label>Height (px):</label>
+        <input type="number" id="prop-height" />
+      </div>
+
+      <div id="color-section">
+        <label>Color / Gradient:</label>
+        <input type="color" id="prop-color1" />
+        <input type="color" id="prop-color2" />
+        <select id="prop-gradient-direction">
+          <option value="none">Solid</option>
+          <option value="lr">Left → Right</option>
+          <option value="rl">Right → Left</option>
+          <option value="tb">Top → Bottom</option>
+          <option value="bt">Bottom → Top</option>
+        </select>
+      </div>
+
+      <div id="text-section">
+        <label>Contents:</label>
+        <textarea id="prop-text-content" rows="3"></textarea>
+        <label>Font Size (px):</label>
+        <input type="number" id="prop-fontsize" />
+        <label>Font Family:</label>
+        <select id="prop-fontfamily">
+          <option value="Poppins">Poppins</option>
+          <option value="sans-serif">Sans-serif</option>
+          <option value="cursive">Curvy</option>
+          <option value="Times New Roman">Times New Roman</option>
+        </select>
+        <label>Font Weight:</label>
+        <select id="prop-fontweight">
+          <option value="bold">Bold</option>
+          <option value="600">Semi-bold</option>
+          <option value="normal">Regular</option>
+        </select>
+      </div>
+      <button id="delete-element-btn" class="btn-secondary">Delete Element</button>
+    </aside>
+
+  </div>
+
+  <!-- Javascript files for the editor -->
+
+  <script id="project-data" type="application/json"><%- JSON.stringify(project || {}) %></script>
+  <script src="/public/js/editor/persistence.js"></script>
+  <script src="/public/js/editor/state.js"></script>
+  <script src="/public/js/editor/canvas.js"></script>
+  <script src="/public/js/editor/renderer.js"></script>
+  <script src="/public/js/editor/frames.js"></script>
+  <script src="/public/js/editor/selection.js"></script>
+  <script src="/public/js/editor/properties.js"></script>
+  <script src="/public/js/editor/domfunctionality.js"></script>
+  <script src="/public/js/editor/utils.js"></script>
+  <script src="/public/js/editor/elements.js"></script>
+  <script src="/public/js/editor/animation.js"></script>
+  <script src="/public/js/editor/ui.js"></script>
+  <script src="/public/js/editor/engine.js"></script>
+  <script src="/public/js/editor/zoom.js"></script>
+</body>
+
+</html>

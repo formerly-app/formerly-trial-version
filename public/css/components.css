@@ -7,9 +7,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1.15rem;
-  font-size: 0.875rem;
+  gap: 0.375rem;
+  padding: 0.45rem 0.875rem;
+  font-size: 0.8125rem;
   border-radius: var(--radius);
   border: none;
   cursor: pointer;
@@ -45,50 +45,6 @@
   height: 18px;
 }
 
-/* Dashboard specific buttons */
-.btn-primary-dash,
-.btn-secondary-dash {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.375rem;
-  padding: 0.5rem 0.875rem;
-  font-size: 0.8125rem;
-  border-radius: var(--radius);
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  white-space: nowrap;
-  font-family: poppins, "sans-serif";
-}
-
-.btn-primary-dash {
-  background-color: var(--primary);
-  color: var(--primary-foreground);
-  font-weight: 600;
-}
-
-.btn-primary-dash:hover {
-  background-color: hsl(211, 100%, 45%);
-}
-
-.btn-secondary-dash {
-  background-color: rgb(233, 233, 233);
-  color: var(--foreground);
-  font-weight: 500;
-}
-
-.btn-secondary-dash:hover {
-  background-color: rgb(211, 211, 211);
-}
-
-.btn-primary-dash img,
-.btn-secondary-dash img {
-  width: 16px;
-  height: 16px;
-}
-
 /* ==========================================
    Navbar
    ========================================== */
@@ -117,23 +73,14 @@
   text-decoration: none;
 }
 
-.logo-icon {
-  width: 2rem;
-  height: 2rem;
-  background-color: var(--primary);
-  border-radius: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--primary-foreground);
-  font-weight: 700;
-  font-size: 1.125rem;
+.logo img {
+  height: 1.7rem;
+  width: auto;
+  object-fit: contain;
 }
 
 .logo-text {
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: var(--foreground);
+  display: none;
 }
 
 .nav-links {
@@ -251,6 +198,31 @@
   color: var(--muted-foreground);
 }
 
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+.footer-support {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.support-email {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.support-email:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
 @media (min-width: 768px) {
   .footer-inner {
     flex-direction: row;
@@ -260,4 +232,85 @@
   .footer-links {
     gap: 2rem;
   }
+}
+
+/* ==========================================
+   Form Inputs
+   ========================================== */
+
+.form-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 0.85rem;
+  font-family: var(--font-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px hsla(211, 100%, 50%, 0.1);
+}
+
+.form-input::placeholder {
+  color: var(--muted-foreground);
+}
+
+/* Specialized input variants */
+.form-input--compact {
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  font-family: var(--font-body);
+}
+
+.form-input--search {
+  border: none;
+  outline: none;
+  padding: 0;
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+  font-family: var(--font-body);
+}
+
+.form-input--property {
+  padding: 0.5rem;
+  background-color: var(--background);
+}
+
+/* Password input wrapper */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper .form-input {
+  padding-right: 3rem;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-foreground);
+  transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+  color: var(--foreground);
+}
+
+.password-toggle svg {
+  width: 20px;
+  height: 20px;
 }

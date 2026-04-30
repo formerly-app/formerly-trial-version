@@ -1,25 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Motion - Make Animated Videos with Text, Shapes, and Media</title>
-  <meta name="description" content="Create motion design videos on a fast, minimalist web-based editor. No downloads, no complexity—just create.">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <title>Formerly - Make Animated Videos with Text, Shapes, and Media</title>
+  <meta name="description"
+    content="Create motion design videos on a fast, minimalist web-based editor. No downloads, no complexity—just create.">
+  <link rel="icon" type="image/png" href="/Images/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Work+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Work+Sans:wght@400;500&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="/css/global.css">
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/landing.css">
+  <style>
+    #free-trial-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0, 0, 0, 0.55);
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    #free-trial-overlay.visible {
+      display: flex;
+    }
+
+    #free-trial-dialog {
+      width: min(100%, 420px);
+      background: #fff;
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.18);
+      overflow: hidden;
+    }
+
+    #free-trial-dialog h2 {
+      margin: 0 0 1rem 0;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .free-trial-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .free-trial-field label {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .free-trial-input {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 1px solid #d8d8d8;
+      border-radius: 16px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .free-trial-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    #free-trial-cancel {
+      border: 1px solid #d8d8d8;
+      background: transparent;
+      color: #111;
+    }
+  </style>
 </head>
+
 <body>
   <!-- Navbar -->
   <header class="navbar">
     <nav class="container navbar-inner">
       <a href="/" class="logo">
-        <div class="logo-icon">M</div>
-        <span class="logo-text">Motion</span>
+        <img src="/Images/logo.svg" alt="Formerly Logo">
       </a>
 
       <!-- Desktop Navigation -->
@@ -28,18 +98,19 @@
       </div>
 
       <div class="nav-buttons">
-        <a href="/login" class="btn-secondary">Log in</a>
-        <a href="/signup" class="btn-primary">Get Started</a>
+        <a href="/editor/free" data-free-trial class="btn-primary">Try once for free</a>
       </div>
 
       <!-- Mobile Menu Button -->
       <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
-        <svg class="menu-icon" id="menuIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg class="menu-icon" id="menuIcon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
           <line x1="3" y1="6" x2="21" y2="6"></line>
           <line x1="3" y1="12" x2="21" y2="12"></line>
           <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
-        <svg class="close-icon hidden" id="closeIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg class="close-icon hidden" id="closeIcon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
@@ -50,10 +121,9 @@
     <div class="mobile-menu hidden" id="mobileMenu">
       <div class="container mobile-menu-inner">
         <a href="#how-it-works" class="mobile-nav-link">How It Works</a>
-          <div class="mobile-menu-buttons">
-            <a href="/login" class="btn-secondary">Log in</a>
-            <a href="/signup" class="btn-primary">Get Started</a>
-          </div>
+        <div class="mobile-menu-buttons">
+          <a href="/editor/free" data-free-trial class="btn-primary">Try once for free</a>
+        </div>
       </div>
     </div>
   </header>
@@ -77,33 +147,23 @@
 
           <!-- Main Headline -->
           <h1 class="hero-title animate-fade-up-delay-1">
-            Make animated videos using
-            <span class="text-primary">Text</span>,
-            <span class="text-primary">Shapes</span>, and
-            <span class="text-primary">Media</span>
+            Animate by connecting <span class="text-primary">frames</span>
           </h1>
 
           <!-- Subheadline -->
           <p class="hero-subtitle animate-fade-up-delay-2">
-            Create motion design videos on a fast, minimalist web-based editor.
-            No downloads. No timelines. Just frames and smooth motion.
+            Design motion using simple start and end frames, with smooth transitions in between.
           </p>
 
           <!-- CTA Buttons -->
           <div class="hero-buttons animate-fade-up-delay-3">
-            <a href="/signup" class="btn-primary">
-              Get Started Free
+            <a href="/editor/free" data-free-trial class="btn-primary">
+              Try once for free
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
             </a>
-            <button class="btn-secondary">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <polygon points="5 3 19 12 5 21 5 3"></polygon>
-              </svg>
-              Watch Demo
-            </button>
           </div>
         </div>
 
@@ -111,7 +171,7 @@
         <div class="hero-illustration animate-fade-up-delay-3">
           <div class="editor-mockup">
             <div class="editor-gradient-overlay"></div>
-            
+
             <!-- Editor Header -->
             <div class="editor-header">
               <div class="editor-dots">
@@ -120,45 +180,85 @@
                 <div class="dot dot-green"></div>
               </div>
               <div class="editor-url">
-                <div class="url-bar">motion.app/editor</div>
+                <div class="url-bar">formerly.app/editor</div>
               </div>
             </div>
 
             <!-- Editor Content -->
-            <div class="editor-content">
-              <div class="canvas">
-                <!-- Animated elements -->
-                <div class="canvas-element text-element animate-float">Hello World</div>
-                <div class="canvas-element circle-element animate-float" style="animation-delay: 1s;"></div>
-                <div class="canvas-element square-element animate-float" style="animation-delay: 2s;"></div>
-                <div class="canvas-element media-element animate-float" style="animation-delay: 0.5s;">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            <!-- Editor Layout (New) -->
+            <div class="editor-layout">
+              <!-- Left Sidebar -->
+              <div class="elements-sidebar-left">
+                <div class="sidebar-header">Add Element</div>
+                <div class="sidebar-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 7V4h16v3M9 20h6M12 4v16" />
                   </svg>
+                  Text
+                </div>
+                <div class="sidebar-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                  </svg>
+                  Shape
+                </div>
+                <div class="sidebar-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" />
+                  </svg>
+                  Media
                 </div>
               </div>
 
-              <!-- Timeline -->
-              <div class="timeline">
-                <div class="timeline-header">
-                  <div class="timeline-label">Timeline</div>
-                  <div class="timeline-divider"></div>
-                  <div class="timeline-time">00:00 / 00:10</div>
+              <!-- Center Canvas (Flow View) -->
+              <div class="editor-canvas-container">
+                <div class="canvas-flow">
+                  <!-- Frame 1 -->
+                  <div class="canvas-frame">
+                    <div class="canvas-frame-label">1</div>
+                    <div class="canvas-element-static" style="top: 20%; left: 10%">Hello World</div>
+                  </div>
+
+                  <!-- Connection -->
+                  <div class="flow-connection">
+                    <div class="flow-line"></div>
+                    <div class="flow-badge">0.5s Ease-In</div>
+                    <div class="flow-line"></div>
+                  </div>
+
+                  <!-- Frame 2 -->
+                  <div class="canvas-frame">
+                    <div class="canvas-frame-label">2</div>
+                    <div class="canvas-element-static" style="top: 60%; left: 70%">Hello World</div>
+                  </div>
                 </div>
-                <div class="timeline-tracks">
-                  <div class="track">
-                    <div class="track-label">Text</div>
-                    <div class="track-bar track-bar-text"></div>
-                  </div>
-                  <div class="track">
-                    <div class="track-label">Shape</div>
-                    <div class="track-bar track-bar-shape"></div>
-                  </div>
-                  <div class="track">
-                    <div class="track-label">Media</div>
-                    <div class="track-bar track-bar-media"></div>
-                  </div>
+              </div>
+
+              <!-- Right Sidebar (Properties) -->
+              <div class="elements-sidebar-right">
+                <div class="sidebar-header">Interaction</div>
+
+                <div class="prop-group">
+                  <label class="prop-label">Duration</label>
+                  <div class="prop-input">0.5s</div>
                 </div>
+
+                <div class="prop-group">
+                  <label class="prop-label">Easing</label>
+                  <div class="prop-pill">Ease In</div>
+                </div>
+
+                <div class="prop-group">
+                  <label class="prop-label">Delay</label>
+                  <div class="prop-input">0ms</div>
+                </div>
+              </div>
+
+              <!-- Concept Label -->
+              <div class="editor-label-overlay">
+                Editor preview (concept)
               </div>
             </div>
           </div>
@@ -185,7 +285,8 @@
             </div>
             <h3 class="step-title">Create Your Canvas</h3>
             <p class="step-description">
-              Start with a blank canvas and add text, shapes, or media elements. Drag and drop to position everything exactly where you want it.
+              Start with a blank canvas and add text, shapes, or media elements. Drag and drop to position everything
+              exactly where you want it.
             </p>
           </div>
 
@@ -211,53 +312,19 @@
             </div>
             <h3 class="step-title">Export & Share</h3>
             <p class="step-description">
-              Export your animation as a high-quality video file. Share it directly or download for use in your projects.
+              Export your animation as a high-quality video file. Share it directly or download for use in your
+              projects.
             </p>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- Pricing Section -->
-    <section id="pricing" class="pricing">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-kicker">💳 Pricing</div>
-          <h2 class="section-title">Simple plans. Clear limits.</h2>
-          <p class="section-subtitle">Pick the plan that matches how you create.</p>
-        </div>
-
-        <div class="pricing-grid">
-          <div class="pricing-card">
-            <div class="pricing-meta">
-              <div class="pricing-plan">Free</div>
-              <div class="pricing-price">$0</div>
-              <p class="pricing-desc">Perfect for trying frame-based motion</p>
-            </div>
-            <ul class="pricing-list">
-              <li class="pricing-item check">Create projects using Text, Shapes, and Media</li>
-              <li class="pricing-item cross">Frame size is fixed after project creation</li>
-              <li class="pricing-item check">Downloads in standard quality</li>
-              <li class="pricing-item cross">Access to basic elements only</li>
-            </ul>
-            <a href="/signup" class="btn-primary pricing-cta">Get Started Free</a>
-          </div>
-
-          <div class="pricing-card premium">
-            <div class="pricing-badge">Recommended</div>
-            <div class="pricing-meta">
-              <div class="pricing-plan">Premium</div>
-              <div class="pricing-price">$19</div>
-              <p class="pricing-desc">Full creative freedom</p>
-            </div>
-            <ul class="pricing-list">
-              <li class="pricing-item check">Change frame size anytime</li>
-              <li class="pricing-item check">Downloads in high quality</li>
-              <li class="pricing-item check">Access to all elements (100%)</li>
-            </ul>
-            <a href="/signup" class="btn-primary pricing-cta">Upgrade to Premium</a>
-            <p class="pricing-micro">Best for serious creators</p>
-          </div>
+        <div class="feature-card animate-fade-up-delay-4">
+          <h3 class="feature-title">Built for fast, no-hassle animation</h3>
+          <ul class="feature-list">
+            <li>Projects auto-save in your browser</li>
+            <li>Export/Import projects as files</li>
+            <li>No account needed</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -267,7 +334,7 @@
       <div class="container">
         <div class="section-header">
           <h2 class="section-title">What you can create</h2>
-          <p class="section-subtitle">Explore the possibilities with Motion</p>
+          <p class="section-subtitle">Explore the possibilities with Formerly</p>
         </div>
 
         <div class="create-grid">
@@ -295,7 +362,9 @@
           <div class="create-card">
             <div class="create-icon">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <path
+                  d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                </path>
                 <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
                 <line x1="12" y1="22.08" x2="12" y2="12"></line>
               </svg>
@@ -370,7 +439,9 @@
           <div class="creator-quote">
             <div class="quote-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                </path>
               </svg>
             </div>
             <p class="quote-text">Built for marketers who need animations without complexity.</p>
@@ -384,27 +455,41 @@
   <footer class="footer">
     <div class="container footer-inner">
       <!-- Logo -->
-      <div class="logo">
-        <div class="logo-icon">M</div>
-        <span class="logo-text">Motion</span>
-      </div>
+      <a href="/" class="logo">
+        <img src="/Images/logo.svg" alt="Formerly Logo">
+      </a>
 
-      <!-- Links -->
-      <nav class="footer-links">
-        <a href="#" class="footer-link">About</a>
-        <a href="#" class="footer-link">Pricing</a>
-        <a href="#" class="footer-link">Docs</a>
-        <a href="/login" class="footer-link">Login</a>
-        <a href="/signup" class="footer-link">Sign Up</a>
-      </nav>
-
-      <!-- Copyright -->
-      <div class="copyright">
-        © <span id="currentYear"></span> Motion. All rights reserved.
+      <!-- Copyright and Support -->
+      <div class="footer-bottom">
+        <div class="copyright">
+          © <span id="currentYear"></span> Formerly. All rights reserved.
+        </div>
+        <div class="footer-support">
+          Need help? Email us at <a href="mailto:formerly.app@gmail.com" class="support-email">formerly.app@gmail.com</a>
+        </div>
       </div>
     </div>
   </footer>
 
+  <div id="free-trial-overlay" role="dialog" aria-modal="true" aria-labelledby="free-trial-title">
+    <div id="free-trial-dialog">
+      <h2 id="free-trial-title">Project size</h2>
+      <div class="free-trial-field">
+        <label for="free-trial-width">Width</label>
+        <input id="free-trial-width" class="free-trial-input" type="number" min="1" placeholder="800" value="800">
+      </div>
+      <div class="free-trial-field">
+        <label for="free-trial-height">Height</label>
+        <input id="free-trial-height" class="free-trial-input" type="number" min="1" placeholder="600" value="600">
+      </div>
+      <div class="free-trial-actions">
+        <button id="free-trial-cancel" type="button" class="btn-secondary">Cancel</button>
+        <button id="free-trial-create" type="button" class="btn-primary">Create</button>
+      </div>
+    </div>
+  </div>
+
   <script src="/js/landing.js"></script>
 </body>
+
 </html>

@@ -105,4 +105,69 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
   }
+
+  const STORAGE_KEY = 'anim_project_v1';
+  const freeTrialOverlay = document.getElementById('free-trial-overlay');
+  const freeTrialWidth = document.getElementById('free-trial-width');
+  const freeTrialHeight = document.getElementById('free-trial-height');
+  const freeTrialCreate = document.getElementById('free-trial-create');
+  const freeTrialCancel = document.getElementById('free-trial-cancel');
+  const freeTrialLinks = document.querySelectorAll('a[data-free-trial]');
+
+  function updateFreeTrialButtonText(isContinue) {
+    freeTrialLinks.forEach(function(link) {
+      Array.from(link.childNodes).forEach(function(node) {
+        if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim().length > 0) {
+          node.nodeValue = isContinue ? 'Continue' : 'Try once for free';
+        }
+      });
+    });
+  }
+
+  function openFreeTrialOverlay(event) {
+    if (event) {
+      event.preventDefault();
+    }
+    if (!freeTrialOverlay) return;
+    freeTrialOverlay.classList.add('visible');
+    freeTrialWidth.value = '800';
+    freeTrialHeight.value = '600';
+    freeTrialWidth.focus();
+  }
+
+  function closeFreeTrialOverlay() {
+    if (!freeTrialOverlay) return;
+    freeTrialOverlay.classList.remove('visible');
+  }
+
+  const hasSavedProject = typeof window.localStorage !== 'undefined' && window.localStorage.getItem(STORAGE_KEY) !== null;
+  if (hasSavedProject) {
+    updateFreeTrialButtonText(true);
+  } else {
+    freeTrialLinks.forEach(function(link) {
+      link.addEventListener('click', openFreeTrialOverlay);
+    });
+  }
+
+  if (freeTrialCancel) {
+    freeTrialCancel.addEventListener('click', closeFreeTrialOverlay);
+  }
+
+  if (freeTrialOverlay) {
+    freeTrialOverlay.addEventListener('click', function(event) {
+      if (event.target === freeTrialOverlay) {
+        closeFreeTrialOverlay();
+      }
+    });
+  }
+
+  if (freeTrialCreate) {
+    freeTrialCreate.addEventListener('click', function() {
+      const widthValue = parseInt(freeTrialWidth.value, 10);
+      const heightValue = parseInt(freeTrialHeight.value, 10);
+      const width = Number.isFinite(widthValue) && widthValue > 0 ? widthValue : 800;
+      const height = Number.isFinite(heightValue) && heightValue > 0 ? heightValue : 600;
+      window.location.href = '/editor/free?width=' + width + '&height=' + height;
+    });
+  }
 });
