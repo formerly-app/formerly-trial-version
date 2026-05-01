@@ -148,12 +148,30 @@ function playAnimationInModal() {
       const curr = currMap[name];
 
       if (prev && curr) {
-        // Add delay before starting the tween
-        step.to(node, { x: curr.x, y: curr.y, opacity: 1, duration, ease, delay: delay }, 0);
+        const tweenConfig = {
+          x: curr.x,
+          y: curr.y,
+          opacity: 1,
+          duration,
+          ease,
+          delay: delay
+        };
+        const sizeProps = getSizeTweenProps(prev, curr);
+        const hasSizeProps = Object.keys(sizeProps).length > 0;
+        if (hasSizeProps) {
+          Object.assign(tweenConfig, sizeProps);
+        }
+        // Keep gradients visually consistent while geometry changes.
+        if (hasSizeProps && hasGradientToSync(prev, curr)) {
+          tweenConfig.onUpdate = () => syncGradientForCurrentNode(node, prev, curr);
+        }
+        step.to(node, tweenConfig, 0);
       } else if (prev && !curr) {
         step.to(node, { opacity: 0, duration, ease, delay: delay }, 0);
       } else if (!prev && curr) {
         // New element: start invisible, fade/move in after delay
+        applyNodeProps(node, getSizeTweenProps(curr, curr));
+        if (hasGradientToSync(curr, curr)) syncGradientForCurrentNode(node, curr, curr);
         step.to(node, { x: curr.x, y: curr.y, opacity: 1, duration, ease, delay: delay }, 0);
       }
     });

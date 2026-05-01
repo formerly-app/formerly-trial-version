@@ -65,12 +65,29 @@ function playAnimation() {
       const curr = currMap[name];
 
       if (prev && curr) {
-        // Add delay before starting the tween
-        step.to(node, { x: curr.x, y: curr.y, opacity: 1, duration, ease, delay: delay }, 0);
+        const tweenConfig = {
+          x: curr.x,
+          y: curr.y,
+          opacity: 1,
+          duration,
+          ease,
+          delay: delay
+        };
+        const sizeProps = getSizeTweenProps(prev, curr);
+        const hasSizeProps = Object.keys(sizeProps).length > 0;
+        if (hasSizeProps) {
+          Object.assign(tweenConfig, sizeProps);
+        }
+        if (hasSizeProps && hasGradientToSync(prev, curr)) {
+          tweenConfig.onUpdate = () => syncGradientForCurrentNode(node, prev, curr);
+        }
+        step.to(node, tweenConfig, 0);
       } else if (prev && !curr) {
         step.to(node, { opacity: 0, duration, ease, delay: delay }, 0);
       } else if (!prev && curr) {
         // New element: start invisible, fade/move in after delay
+        applyNodeProps(node, getSizeTweenProps(curr, curr));
+        if (hasGradientToSync(curr, curr)) syncGradientForCurrentNode(node, curr, curr);
         step.to(node, { x: curr.x, y: curr.y, opacity: 1, duration, ease, delay: delay }, 0);
       }
     });
@@ -284,16 +301,20 @@ function startExport() {
             node.x(start.x);
             node.y(start.y);
             node.opacity(1);
+            applyInterpolatedSizeState(node, start, end, 0);
           } else {
             node.x(start.x + (end.x - start.x) * eased);
             node.y(start.y + (end.y - start.y) * eased);
             node.opacity(1);
+            applyInterpolatedSizeState(node, start, end, eased);
           }
         } else if (start && !end) {
           // Element disappears
           node.opacity(relativeTime < delay ? 1 : 1 - eased);
         } else if (!start && end) {
           // New element appears
+          applyNodeProps(node, getSizeTweenProps(end, end));
+          if (hasGradientToSync(end, end)) syncGradientForCurrentNode(node, end, end);
           if (relativeTime < delay) {
             node.opacity(0);
             node.x(end.x);

@@ -1,6 +1,7 @@
 // properties.js
 const propOpacity = document.getElementById("prop-opacity");
 const propRotate = document.getElementById("prop-rotate");
+const propName = document.getElementById("prop-name-input");
 const propWidth = document.getElementById("prop-width");
 const propHeight = document.getElementById("prop-height");
 const propColor1 = document.getElementById("prop-color1");
@@ -66,6 +67,7 @@ function getDisplaySize(el) {
 function updatePropertiesUI(el) {
   propOpacity.value = toRoundedInt((el.opacity ?? 1) * 100, 100);
   propRotate.value = toRoundedInt(el.rotation, 0);
+  propName.value = el.name || "";
 
   const { w, h } = getDisplaySize(el);
   propWidth.value = w;
@@ -185,6 +187,11 @@ function bindProperties(el, layer) {
     propRotate.value = el.rotation;
     if (selectedNode) selectedNode.rotation(el.rotation);
     layer.draw();
+    saveProject();
+  };
+
+  propName.oninput = () => {
+    el.name = propName.value;
     saveProject();
   };
 
