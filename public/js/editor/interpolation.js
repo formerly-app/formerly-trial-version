@@ -29,10 +29,15 @@ function getSizeTweenProps(startEl, endEl) {
   switch (type) {
     case "rect":
     case "image":
-    case "text":
       return {
         width: getNumber(endEl.width, getNumber(startEl.width, 0)),
         height: getNumber(endEl.height, getNumber(startEl.height, 0)),
+        scaleX: getNumber(endEl.scaleX, getNumber(startEl.scaleX, 1)),
+        scaleY: getNumber(endEl.scaleY, getNumber(startEl.scaleY, 1))
+      };
+
+    case "text":
+      return {
         scaleX: getNumber(endEl.scaleX, getNumber(startEl.scaleX, 1)),
         scaleY: getNumber(endEl.scaleY, getNumber(startEl.scaleY, 1))
       };
